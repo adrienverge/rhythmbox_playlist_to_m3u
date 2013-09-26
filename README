@@ -1,0 +1,8 @@
+This script converts playlists stored by Rhythmbox to M3U files.
+
+It reads information from ~/.local/share/rhythmbox/playlists.xml and converts
+every 'static' playlist into a M3U file. If the new playlists are the same as
+existing M3U files, they don't replace them.
+
+This program has been written in September 2013 and works well with
+Rhythmbox 2.99.1.
