@@ -10,7 +10,8 @@ This program has been written in September 2013 and works well with Rhythmbox 2.
 
 ## Usage
 
-```./rhythmbox_playlist_to_m3u.py [-i /path/to/playlist.xml] /path/to/output/dir
+```
+./rhythmbox_playlist_to_m3u.py [-i /path/to/playlist.xml] /path/to/output/dir
 ```
 
 Rhythmbox playlist will be read from `/path/to/playlist.xml` (default `~/.local/share/rhythmbox/playlists.xml`) and saved in the `/path/to/output/dir` directory, in M3U format.
