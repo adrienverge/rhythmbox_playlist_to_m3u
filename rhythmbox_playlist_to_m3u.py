@@ -73,7 +73,8 @@ def main():
 		if child.attrib['type'] == 'static':
 			filename = child.attrib['name']+'.m3u'
 			save_playlist(child, tmpdir+'/'+filename)
-			if filecmp.cmp(tmpdir+'/'+filename, outdir+'/'+filename):
+			if os.path.exists(outdir+'/'+filename) and \
+			   filecmp.cmp(tmpdir+'/'+filename, outdir+'/'+filename):
 				# The playlist has not changed
 				os.remove(tmpdir+'/'+filename)
 			else:
