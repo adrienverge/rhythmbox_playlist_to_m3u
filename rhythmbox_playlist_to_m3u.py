@@ -34,8 +34,8 @@ def save_playlist(playlist, filename):
 	f.write('#EXTM3U\n')
 	for song in playlist:
 		if song.tag == 'location':
-			if song.text[0:18] == 'file:///docs/music':
-				songfile = '..'+song.text[18:]
+			if song.text[0:8] == 'file:///':
+				songfile = song.text[7:]
 				songfile = urllib.parse.unquote(songfile)
 				f.write(songfile+'\n')
 			else:
