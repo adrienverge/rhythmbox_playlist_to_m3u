@@ -29,7 +29,7 @@ import xml.etree.ElementTree
 if sys.version_info < (3, 0):
 	raise Exception("This script is made for Python 3.0 or higher")
 
-def save_playlist(playlist, filename):
+def save_playlist(playlist, filename, outdir=None):
 	f = open(filename, 'w')
 	f.write('#EXTM3U\n')
 	for song in playlist:
@@ -37,6 +37,11 @@ def save_playlist(playlist, filename):
 			if song.text[0:8] == 'file:///':
 				songfile = song.text[7:]
 				songfile = urllib.parse.unquote(songfile)
+
+				# if needed calculate relative path
+				if not outdir ==  None:
+					songfile = os.path.relpath(songfile,outdir)
+
 				f.write(songfile+'\n')
 			else:
 				print('WARNING: unexpected path')
@@ -58,11 +63,18 @@ def main():
 	parser.add_argument('-i', metavar='/path/to/playlist.xml',
 						default=def_pl,
 						help='Rhythmbox playlist file, in XML format')
+	parser.add_argument('-r', '--relative', action='store_true',
+						help='Calculate relative path to songs insid m3u files')
 	args = parser.parse_args()
 
 	infile = args.i
 	outdir = args.o # '/docs/music/__playlists'
+	is_relative = args.relative
 	tmpdir = '/tmp'
+
+	if not outdir:
+		print('Error you have to specify an output dir')
+		sys.exit()
 
 	tree = xml.etree.ElementTree.parse(infile)
 	root = tree.getroot()
@@ -72,7 +84,7 @@ def main():
 	for child in root:
 		if child.attrib['type'] == 'static':
 			filename = child.attrib['name']+'.m3u'
-			save_playlist(child, tmpdir+'/'+filename)
+			save_playlist(child, tmpdir+'/'+filename, outdir if is_relative else None)
 			if os.path.exists(outdir+'/'+filename) and \
 			   filecmp.cmp(tmpdir+'/'+filename, outdir+'/'+filename):
 				# The playlist has not changed
