@@ -53,7 +53,7 @@ def main():
 	# Parse arguments
 	parser = argparse.ArgumentParser(
 		description='Converts playlists stored by Rhythmbox to M3U files.')
-	parser.add_argument('o', metavar='/path/to/output/dir',
+	parser.add_argument('-o', metavar='/path/to/output/dir',
 						help='output directory to save M3U playlists')
 	parser.add_argument('-i', metavar='/path/to/playlist.xml',
 						default=def_pl,
