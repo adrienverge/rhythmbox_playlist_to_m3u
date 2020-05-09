@@ -23,11 +23,12 @@ import filecmp
 import os
 import shutil
 import sys
+import re
 import urllib.parse
 import xml.etree.ElementTree
 
 if sys.version_info < (3, 0):
-	raise Exception("This script is made for Python 3.0 or higher")
+	raise Exception('This script is made for Python 3.0 or higher.')
 
 def save_playlist(playlist, filename, outdir=None):
 	f = open(filename, 'w')
@@ -83,7 +84,7 @@ def main():
 
 	for child in root:
 		if child.attrib['type'] == 'static':
-			filename = child.attrib['name']+'.m3u'
+			filename = re.sub('[^\w\-_\. ]', '_', child.attrib['name'])+'.m3u'
 			save_playlist(child, tmpdir+'/'+filename, outdir if is_relative else None)
 			if os.path.exists(outdir+'/'+filename) and \
 			   filecmp.cmp(tmpdir+'/'+filename, outdir+'/'+filename):
@@ -100,4 +101,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
